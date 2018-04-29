@@ -101,7 +101,8 @@ RUN a2enmod ssl
 VOLUME $FIREFLY_PATH/storage/export $FIREFLY_PATH/storage/upload
 
 # Enable default site (Firefly III)
-COPY ./.deploy/docker/apache-firefly.conf /etc/apache2/sites-available/000-default.conf
+COPY ./.deploy/docker/apache-firefly-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+RUN ln -s /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-enabled/default-ssl.conf
 
 # Make sure we own Firefly III directory
 RUN chown -R www-data:www-data /var/www && chmod -R 775 $FIREFLY_PATH/storage
@@ -116,8 +117,8 @@ RUN rm -rf /usr/local/lib/libcurl.so.4 && ln -s /usr/lib/x86_64-linux-gnu/libcur
 # Run composer
 RUN composer install --prefer-dist --no-dev --no-scripts --no-suggest
 
-# Expose port 80
-EXPOSE 80
+# Expose port 443
+EXPOSE 443
 
 # Run entrypoint thing
 ENTRYPOINT [".deploy/docker/entrypoint.sh"]
