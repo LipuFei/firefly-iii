@@ -31,7 +31,7 @@ return [
     'locale'          => 'en_US',
     'fallback_locale' => 'en_US',
     'key'             => env('APP_KEY'),
-    'cipher'          => 'AES-256-CBC',
+    'cipher'          => env('APP_CIPHER', 'AES-256-CBC'),
     'providers'       => [
 
         /*
